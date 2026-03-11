@@ -13,6 +13,7 @@ function PostList({ posts }) {
       >
         โพสต์ล่าสุด
       </h2>
+<PostCount count={posts.length} />
       {posts.map((post) => (
         <PostCard key={post.id} title={post.title} body={post.body} />
       ))}
