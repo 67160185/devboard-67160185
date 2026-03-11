@@ -1,4 +1,5 @@
 import PostCard from "./PostCard";
+import PostCount from "./PostCount";
 
 function PostList({ posts }) {
   return (
