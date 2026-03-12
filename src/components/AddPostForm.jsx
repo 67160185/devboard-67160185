@@ -4,12 +4,15 @@ function AddPostForm({ onAddPost }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
+  const maxLength = 100;
+  const remaining = maxLength - title.length;
+
   function handleSubmit(e) {
     e.preventDefault();
-    if (!title.trim() || !body.trim()) return; // ป้องกันส่งว่าง
+    if (!title.trim() || !body.trim()) return;
 
     onAddPost({ title, body });
-    setTitle(""); // เคลียร์ form
+    setTitle("");
     setBody("");
   }
 
@@ -28,10 +31,32 @@ function AddPostForm({ onAddPost }) {
         เพิ่มโพสต์ใหม่
       </h3>
 
+      {/* label + counter */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "4px",
+        }}
+      >
+        <label>หัวข้อโพสต์</label>
+
+        <span
+          style={{
+            fontSize: "0.8rem",
+            color: remaining < 10 ? "red" : "#718096",
+          }}
+        >
+          {title.length}/{maxLength}
+        </span>
+      </div>
+
       <input
         type="text"
         placeholder="หัวข้อโพสต์"
         value={title}
+        maxLength={maxLength}
         onChange={(e) => setTitle(e.target.value)}
         style={{
           width: "100%",
