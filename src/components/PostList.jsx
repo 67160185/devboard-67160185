@@ -21,7 +21,7 @@ function PostList({ posts, favorites, onToggleFavorite }) {
       >
         โพสต์ล่าสุด
       </h2>
-    <PostCount count={posts.length} />
+    <PostCount count={filtered.length} />
       <input
         type="text"
         placeholder="ค้นหาโพสต์..."
