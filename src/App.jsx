@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Navbar from "./components/Navbar";
 import PostList from "./components/PostList";
-import UserCard from "./components/UserCard";
+import UserList from "./components/UserList";
 import AddPostForm from "./components/AddPostForm";
 
 function App() {
   const [favorites, setFavorites] = useState([]);
-  
+
   function handleToggleFavorite(postId) {
     setFavorites((prev) =>
       prev.includes(postId)
@@ -15,32 +15,20 @@ function App() {
     );
   }
 
-  // เพิ่มโพสต์ใหม่
-  function handleAddPost({ title, body }) {
-    const newPost = {
-      id: Date.now(),
-      title,
-      body,
-    };
-    setPosts((prev) => [newPost, ...prev]);
-  }
-
   return (
     <div>
       <Navbar favoriteCount={favorites.length} />
 
-      <div
-        style={{
-          maxWidth: "900px",
-          margin: "2rem auto",
-          padding: "0 1rem",
-          display: "grid",
-          gridTemplateColumns: "2fr 1fr",
-          gap: "2rem",
-        }}
-      >
+      <div style={{
+        maxWidth: "900px",
+        margin: "2rem auto",
+        padding: "0 1rem",
+        display: "grid",
+        gridTemplateColumns: "2fr 1fr",
+        gap: "2rem",
+      }}>
         <div>
-          <AddPostForm onAddPost={() => {}} /> {/* จะเชื่อมใน wk14 */}
+          <AddPostForm onAddPost={() => {}} />
           <PostList
             favorites={favorites}
             onToggleFavorite={handleToggleFavorite}
