@@ -1,4 +1,9 @@
-function PostCard({ title, body, isFavorite, onToggleFavorite }) {
+import { useState } from "react";
+import CommentList from "./CommentList";
+
+function PostCard({ id, title, body, isFavorite, onToggleFavorite }) {
+  const [showComments, setShowComments] = useState(false);
+
   return (
     <div
       style={{
@@ -12,21 +17,43 @@ function PostCard({ title, body, isFavorite, onToggleFavorite }) {
       <h3 style={{ margin: "0 0 0.5rem", color: "#1e40af" }}>{title}</h3>
       <p style={{ margin: 0, color: "#4a5568", lineHeight: 1.6 }}>{body}</p>
 
-      {/* ปุ่มถูกใจ */}
-      <button
-        onClick={onToggleFavorite}
-        style={{
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          fontSize: "1.2rem",
-          padding: "0.25rem 0.5rem",
-          borderRadius: "4px",
-          color: isFavorite ? "#e53e3e" : "#a0aec0",
-        }}
-      >
-        {isFavorite ? "❤️ ถูกใจแล้ว" : "🤍 ถูกใจ"}
-      </button>
+      {/* ✅ FIX: ย้าย div ครอบปุ่ม */}
+      <div style={{ display: "flex", gap: "0.5rem" }}>
+        {/* ปุ่มถูกใจ */}
+        <button
+          onClick={onToggleFavorite}
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            fontSize: "1rem",
+            padding: "0.25rem 0.5rem",
+            borderRadius: "4px",
+            color: isFavorite ? "#e53e3e" : "#a0aec0",
+          }}
+        >
+          {isFavorite ? "❤️ ถูกใจแล้ว" : "🤍 ถูกใจ"}
+        </button>
+
+        {/* ปุ่มดูความคิดเห็น */}
+        <button
+          onClick={() => setShowComments((prev) => !prev)}
+          style={{
+            background: "none",
+            border: "1px solid #e2e8f0",
+            cursor: "pointer",
+            fontSize: "0.9rem",
+            padding: "0.25rem 0.75rem",
+            borderRadius: "4px",
+            color: "#4a5568",
+          }}
+        >
+          {showComments ? "▲ ซ่อน" : "▼ ดูความคิดเห็น"}
+        </button>
+      </div>
+
+      {/* ✅ FIX: ใช้ id แทน post.id */}
+      {showComments && <CommentList postId={id} />}
     </div>
   );
 }
