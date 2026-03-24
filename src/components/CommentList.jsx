@@ -25,8 +25,7 @@ function CommentList({ postId }) {
     fetchComments();
   }, [postId]); // fetch ใหม่ทุกครั้งที่ postId เปลี่ยน
 
-  if (loading)
-    return <p style={{ color: "#718096" }}>กำลังโหลดความคิดเห็น...</p>;
+  if (loading) return <LoadingSpinner />;
   if (error) return <p style={{ color: "#c53030" }}>{error}</p>;
 
   return (
