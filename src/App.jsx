@@ -5,9 +5,16 @@ import UserCard from "./components/UserCard";
 import AddPostForm from "./components/AddPostForm";
 
 function App() {
-  const [posts, setPosts] = useState(INITIAL_POSTS);
-  const [favorites, setFavorites] = useState([]);
+  const INITIAL_POSTS = [];
 
+const USERS = [
+  { id: 1, name: "John Doe", email: "john@test.com" },
+  { id: 2, name: "Jane Doe", email: "jane@test.com" },
+];
+  
+const [posts, setPosts] = useState(INITIAL_POSTS);
+const [favorites, setFavorites] = useState([]);
+  
   function handleToggleFavorite(postId) {
     setFavorites((prev) =>
       prev.includes(postId)
