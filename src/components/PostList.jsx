@@ -2,14 +2,15 @@ import { useState, useEffect } from "react";
 import PostCard from "./PostCard";
 import PostCount from "./PostCount";
 import LoadingSpinner from "./LoadingSpinner";
+import { useFavorites } from "../context/FavoritesContext";
 
-function PostList({ favorites, onToggleFavorite }) {
+function PostList() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [posts, setPosts] = useState([]);
+  const { favorites, toggleFavorite } = useFavorites();
 
-  // fetch function (เรียกได้หลายที่)
   async function fetchPosts() {
     try {
       setLoading(true);
@@ -27,7 +28,6 @@ function PostList({ favorites, onToggleFavorite }) {
     }
   }
 
-  // โหลดครั้งแรก
   useEffect(() => {
     fetchPosts();
   }, []);
@@ -41,7 +41,6 @@ function PostList({ favorites, onToggleFavorite }) {
 
   return (
     <div>
-      {/* หัวข้อ + ปุ่มโหลดใหม่ */}
       <div
         style={{
           display: "flex",
@@ -59,48 +58,30 @@ function PostList({ favorites, onToggleFavorite }) {
           โพสต์ล่าสุด
         </h2>
 
-        <button
-          onClick={fetchPosts}
-          style={{
-            padding: "0.4rem 0.8rem",
-            borderRadius: "6px",
-            border: "1px solid #ccc",
-            cursor: "pointer",
-          }}
-        >
-          🔄 โหลดใหม่
-        </button>
+        <button onClick={fetchPosts}>🔄 โหลดใหม่</button>
       </div>
 
-      {/* นับจำนวนโพสต์ */}
-      <PostCount count={posts.length} />
+      {/* ✅ ใช้ filtered */}
+      <PostCount count={filtered.length} />
 
-      {/* ช่องค้นหา */}
       <input
         type="text"
         placeholder="ค้นหาโพสต์..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        style={{
-          width: "100%",
-          padding: "0.5rem",
-          marginBottom: "1rem",
-        }}
       />
 
-      {/* ถ้าไม่เจอ */}
       {filtered.length === 0 && <p>ไม่พบโพสต์ที่ค้นหา</p>}
 
-      {/* แสดงโพสต์ */}
       {filtered.map((post) => (
         <PostCard
-  key={post.id}
-  id={post.id}
-  title={post.title}
-  body={post.body}
-  isFavorite={favorites.includes(post.id)}
-  onToggleFavorite={() => onToggleFavorite(post.id)}
-/>
+          key={post.id}
+          id={post.id}
+          title={post.title}
+          body={post.body}
+          isFavorite={favorites.includes(post.id)}
+          onToggleFavorite={() => toggleFavorite(post.id)} // ✅ แก้แล้ว
+        />
       ))}
     </div>
   );

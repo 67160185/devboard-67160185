@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useFavorites } from "../context/FavoritesContext";
 import CommentList from "./CommentList";
 
-function PostCard({ id, title, body, isFavorite, onToggleFavorite }) {
+function PostCard({ id, title, body }) {
+  const { favorites, toggleFavorite } = useFavorites();
+  const isFavorite = favorites.includes(id);
   const [showComments, setShowComments] = useState(false);
 
   return (
@@ -14,28 +18,33 @@ function PostCard({ id, title, body, isFavorite, onToggleFavorite }) {
         background: "white",
       }}
     >
-      <h3 style={{ margin: "0 0 0.5rem", color: "#1e40af" }}>{title}</h3>
-      <p style={{ margin: 0, color: "#4a5568", lineHeight: 1.6 }}>{body}</p>
+      <h3 style={{ margin: "0 0 0.5rem" }}>
+        <Link
+          to={`/posts/${id}`} // ✅ ใช้ id
+          style={{ color: "#1e40af", textDecoration: "none" }}
+        >
+          {title}
+        </Link>
+      </h3>
 
-      {/* ✅ FIX: ย้าย div ครอบปุ่ม */}
+      <p style={{ margin: "0 0 0.75rem", color: "#4a5568", lineHeight: 1.6 }}>
+        {body}
+      </p>
+
       <div style={{ display: "flex", gap: "0.5rem" }}>
-        {/* ปุ่มถูกใจ */}
         <button
-          onClick={onToggleFavorite}
+          onClick={() => toggleFavorite(id)} // ✅ ใช้ id
           style={{
             background: "none",
             border: "none",
             cursor: "pointer",
             fontSize: "1rem",
-            padding: "0.25rem 0.5rem",
-            borderRadius: "4px",
             color: isFavorite ? "#e53e3e" : "#a0aec0",
           }}
         >
-          {isFavorite ? "❤️ ถูกใจแล้ว" : "🤍 ถูกใจ"}
+          {isFavorite ? "❤️" : "🤍"}
         </button>
 
-        {/* ปุ่มดูความคิดเห็น */}
         <button
           onClick={() => setShowComments((prev) => !prev)}
           style={{
@@ -52,8 +61,7 @@ function PostCard({ id, title, body, isFavorite, onToggleFavorite }) {
         </button>
       </div>
 
-      {/* ✅ FIX: ใช้ id แทน post.id */}
-      {showComments && <CommentList postId={id} />}
+      {showComments && <CommentList postId={id} />} {/* ✅ ใช้ id */}
     </div>
   );
 }
